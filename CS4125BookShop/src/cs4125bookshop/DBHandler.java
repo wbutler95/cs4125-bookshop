@@ -13,31 +13,67 @@ public class DBHandler {
     
     // Default constructor creates a connection to MySQL using IP localhost, database cs4125bookshop, 
     // username sqluser, password sqluserpw
-    // Taken from JDBC use example by UL Staff Member: James Murphy
+    // Taken from (and edited) JDBC use example by UL Staff Member: James Murphy
     public DBHandler() {
         try {
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
-            // Set up the connection with the DB
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/cs4125bookshop?"+"user=sqluser&password=sqluserpw");
-
+            
+            // Set up the connection with the DBMS
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=");
+            
             // Statements allow to issue SQL queries to the database
             statement = connect.createStatement();
+            
+            // Create the database if it doesn't already exist
+            statement.execute("CREATE DATABASE IF NOT EXISTS cs4125bookshop");
+            
+            // Connect to the Bookshop DB
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/cs4125bookshop?user=root&password=");
+            statement = connect.createStatement();
+            
+            // Create the BOOKS table if it doesn't already exist
+            statement.execute("CREATE TABLE IF NOT EXISTS BOOKS (" +
+                            "ID INT NOT NULL AUTO_INCREMENT, " +
+                            "NAME VARCHAR(30) NOT NULL, " +
+                            "AUTHOR VARCHAR(30) NOT NULL, " +
+                            "GENRE VARCHAR(30) NOT NULL, " +
+                            "PUBLISHER VARCHAR(30) NOT NULL," +
+                            "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
+                            "PRIMARY KEY (ID))");
         } catch (Exception e) {
         }
     }
     
     // Constructor creates a connection to MySQL using parameters for IP, database, username, password
-    // Taken from JDBC use example by UL Staff Member: James Murphy
+    // Taken from (and edited) JDBC use example by UL Staff Member: James Murphy
     public DBHandler(String ip, String db, String user, String pw) {
         try {
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
-            // Setup the connection with the DB
-            connect = DriverManager.getConnection("jdbc:mysql://"+ip+"/"+db+"?"+"user="+user+"&password="+pw);
-
+            
+            // Setup the connection with the DMBS
+            connect = DriverManager.getConnection("jdbc:mysql://"+ip+"/?"+"user="+user+"&password="+pw);
+            
             // Statements allow to issue SQL queries to the database
             statement = connect.createStatement();
+            
+            // Create the database if it doesn't already exist
+            statement.execute("CREATE DATABASE IF NOT EXISTS cs4125bookshop");
+            
+            // Connect to the cs4125bookshop DB
+            connect = DriverManager.getConnection("jdbc:mysql://"+ip+"/"+db+"?user="+user+"&password="+pw);
+            statement = connect.createStatement();
+            
+            // Create the BOOKS table if it doesn't already exist
+            statement.execute("CREATE TABLE IF NOT EXISTS BOOKS (" +
+                            "ID INT NOT NULL AUTO_INCREMENT, " +
+                            "NAME VARCHAR(30) NOT NULL, " +
+                            "AUTHOR VARCHAR(30) NOT NULL, " +
+                            "GENRE VARCHAR(30) NOT NULL, " +
+                            "PUBLISHER VARCHAR(30) NOT NULL," +
+                            "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
+                            "PRIMARY KEY (ID))");
         } catch (Exception e) {
         }
     }
