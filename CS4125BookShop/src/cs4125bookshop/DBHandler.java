@@ -10,6 +10,7 @@ public class DBHandler {
     private Connection connect = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
+    private String name;
     
     // Default constructor creates a connection to MySQL using IP localhost, database cs4125bookshop, 
     // username sqluser, password sqluserpw
@@ -104,25 +105,43 @@ public class DBHandler {
         }
         return i;
     }
+           public int checkidExists(int id) {
+        resultSet = doStatement("SELECT EXISTS(SELECT * FROM BOOKS WHERE ID='"+id+"')", "SELECT");
+        int i = 0;
+        try {
+            resultSet.first();
+            i = resultSet.getInt(1);
+        } catch (Exception e) {
+        }
+        return i;
+    }
     
     // Adds a new row to BOOKS
     public void insertBook(Book book) {
+        name = book.getName();
+        int i = checkBookExists(name);
+    if (i == 0)
         doStatement("insert into CS4125BOOKSHOP.BOOKS values (default, '"+book.getName()+"', '"+book.getAuthor()+"', '"
                 +book.getGenre()+"', '"+book.getPublisher()+"', "+book.getPrice()+")", "INSERT");
     }
     
     // Removes row from BOOKS (identified by id)
     public void deleteBook(int id) {
-        doStatement("DELETE FROM BOOKS WHERE ID='"+id+"'", "UPDATE");
+        int i = checkidExists(id);
+        if (i == 0)
+              doStatement("DELETE FROM BOOKS WHERE ID='"+id+"'", "UPDATE");
     }
     
     // Updates the values of a row in BOOKS (identified by id)
     public void updateBook(int id, Book book) {
-        doStatement("UPDATE BOOKS SET NAME='"+book.getPublisher()+"' WHERE ID='"+id+"'", "UPDATE");
-        doStatement("UPDATE BOOKS SET AUTHOR='"+book.getAuthor()+"' WHERE ID='"+id+"'", "UPDATE");
-        doStatement("UPDATE BOOKS SET GENRE='"+book.getGenre()+"' WHERE ID='"+id+"'", "UPDATE");
-        doStatement("UPDATE BOOKS SET PUBLISHER='"+book.getPublisher()+"' WHERE ID='"+id+"'", "UPDATE");
-        doStatement("UPDATE BOOKS SET PRICE="+book.getPrice()+" WHERE ID='"+id+"'", "UPDATE");
+        int i = checkidExists(id);
+        if (i == 0){
+            doStatement("UPDATE BOOKS SET NAME='"+book.getPublisher()+"' WHERE ID='"+id+"'", "UPDATE");
+            doStatement("UPDATE BOOKS SET AUTHOR='"+book.getAuthor()+"' WHERE ID='"+id+"'", "UPDATE");
+            doStatement("UPDATE BOOKS SET GENRE='"+book.getGenre()+"' WHERE ID='"+id+"'", "UPDATE");
+            doStatement("UPDATE BOOKS SET PUBLISHER='"+book.getPublisher()+"' WHERE ID='"+id+"'", "UPDATE");
+            doStatement("UPDATE BOOKS SET PRICE="+book.getPrice()+" WHERE ID='"+id+"'", "UPDATE");
+        }
     }
     
     // Closes the ResultSet, Statement and database Connection
