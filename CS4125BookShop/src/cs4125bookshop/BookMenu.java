@@ -28,6 +28,7 @@ public class BookMenu extends JFrame implements ActionListener
 	private JLabel jlblDate2;
 	private JPanel TimeDate;
 	private String Date;
+	private BookManip ab;
 	
 	public BookMenu ()
 	{
@@ -180,15 +181,15 @@ public class BookMenu extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtAddBook)) {
-            //ManageBooksMenu();
+            ab.addBook();
         }
 		
 		if(source.equals(jbtRemoveBook)) {
-            //ManageStockMenu();
+            ab.deleteBook();
         }
 		
 		if(source.equals(jbtEditBook)) {
-            //ManageStaffMenu();
+            ab.updateBook();
         }
 	}
 
