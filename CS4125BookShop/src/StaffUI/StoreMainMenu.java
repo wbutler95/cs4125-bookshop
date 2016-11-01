@@ -25,7 +25,7 @@ public class StoreMainMenu extends JFrame implements ActionListener
 	private JLabel jlblDate;
 	private JPanel jpnlTime;
 	private JLabel jlblDate2;
-    private JPanel menu;
+        private JPanel menu;
 	private JPanel TimeDate;
 	private String Date;
 	

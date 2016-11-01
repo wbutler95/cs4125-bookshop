@@ -6,17 +6,10 @@ import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import UICommon.ThreadedCurrentTime;
+import StaffControls.AddBookControl;
 
 public class AddBook extends JFrame implements ActionListener
 {
-        private DBHandler db;
-        private String name;
-        private String author;
-        private String genre;
-        private String publisher;
-        private int id;
-        private double price;       
-        private Book book;
 	private JButton jbtBack;
 	private JButton jbtAddBook;
         private JPanel menu;
@@ -32,12 +25,12 @@ public class AddBook extends JFrame implements ActionListener
 	private String Publisher;
 	private String Author;
 	private String Genre;
-	private String ISBN;
+	private String Price;
 	private JLabel Bname;
 	private JLabel Aname;
 	private JLabel Pname;
 	private JLabel Gname;
-	private JLabel isbn;
+	private JLabel price;
 	private JTextField B;
 	private JTextField A;
 	private JTextField P;
@@ -137,10 +130,10 @@ public class AddBook extends JFrame implements ActionListener
 		Gname.setBackground(new Color(59, 89, 182));
         Gname.setForeground(Color.WHITE);
 		
-		isbn = new JLabel("Enter ISBN: ", SwingConstants.CENTER);
-        isbn.setSize(40, 40);
-		isbn.setBackground(new Color(59, 89, 182));
-        isbn.setForeground(Color.WHITE);
+		price = new JLabel("Enter Price: ", SwingConstants.CENTER);
+        price.setSize(40, 40);
+		price.setBackground(new Color(59, 89, 182));
+        price.setForeground(Color.WHITE);
 		
 		B = new JTextField(20);
 		B.setText("Book Name");
@@ -149,19 +142,19 @@ public class AddBook extends JFrame implements ActionListener
         B.setForeground(Color.WHITE);
 		B.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		A = new JTextField(20);
-		A.setText("Author");
-        A.setSize(40, 40);
-		A.setBackground(new Color(59, 89, 182));
-        A.setForeground(Color.WHITE);
-		A.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		P = new JTextField(50);
+		P = new JTextField(20);
 		P.setText("Publisher");
         P.setSize(40, 40);
 		P.setBackground(new Color(59, 89, 182));
         P.setForeground(Color.WHITE);
 		P.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		A = new JTextField(50);
+		A.setText("Author");
+        A.setSize(40, 40);
+		A.setBackground(new Color(59, 89, 182));
+        A.setForeground(Color.WHITE);
+		A.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		G = new JTextField(50);
 		G.setText("Genre");
@@ -171,7 +164,7 @@ public class AddBook extends JFrame implements ActionListener
 		G.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		I = new JTextField(50);
-		I.setText("Price");
+		I.setText("0.00");
         I.setSize(40, 40);
 		I.setBackground(new Color(59, 89, 182));
         I.setForeground(Color.WHITE);
@@ -193,7 +186,7 @@ public class AddBook extends JFrame implements ActionListener
 		Bookdetails.add(P);
 		Bookdetails.add(Gname);
 		Bookdetails.add(G);
-		Bookdetails.add(isbn);
+		Bookdetails.add(price);
 		Bookdetails.add(I);
 		
 		menu.add(TimeDate);
@@ -393,21 +386,13 @@ public class AddBook extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtAddBook)) {
-            //;AddBook
-			
+            AddBookControl addBookObject = new AddBookControl();
+            addBookObject.addBook(B.getText(), A.getText(), G.getText(), P.getText(), Double.parseDouble(I.getText()));
+	    System.exit(0);
         }
 		
 	}
 	
-	public void addBook(){
-        	name = B.getText().toString();
-        	author = A.getText().toString();
-        	publisher = P.getText().toString();
-        	genre = G.getText().toString();
-        	price = Double.parseDouble(I.getText());      
-        	book = new Book(name, author, genre, publisher, price);
-        	db.insertBook(book);
-				}
 
 	public static void main(String args [])
 	{

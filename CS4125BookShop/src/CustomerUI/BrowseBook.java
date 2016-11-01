@@ -1,15 +1,20 @@
 package CustomerUI;
 
+import DBInterface.DBHandler;
+import Orders.Book;
+import UICommon.ThreadedCurrentTime;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.event.*;
-import UICommon.ThreadedCurrentTime;
+import CustomerControls.BuyBookControl;
 
 public class BrowseBook extends JFrame implements ActionListener
 {
+        private DBHandler db = new DBHandler();
 	private JButton jbtBack;
 	private JButton jbtBuyBook;
         private JPanel menu;
@@ -21,7 +26,8 @@ public class BrowseBook extends JFrame implements ActionListener
 	private JLabel jlblDate2;
 	private JPanel TimeDate;
 	private String Date;
-	private String Books [] = {"1","2","3","4","5","6","7","8","9","10","11","12"};
+	//private String Books [] = {"1","2","3","4","5","6","7","8","9","10","11","12"};
+        private List<String> Books = new ArrayList<>();
 	private JList list;
 	private int choice;
 	
@@ -91,10 +97,18 @@ public class BrowseBook extends JFrame implements ActionListener
 		jbtBuyBook.setToolTipText("Click to buy book selected from list");
 		jbtBuyBook.setEnabled(false);
 		
-		list = new JList(Books);
+                
+                for(int i = 0; i < db.countBooks(); i++) {
+                    Book book = db.getBook(i);
+                    Books.add(book.getName());
+                }
+                
+                
+                String[] BooksArray = Books.toArray(new String[0]);
+		list = new JList(BooksArray);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setVisibleRowCount(Books.length);
+		list.setVisibleRowCount(Books.size());
 		list.setBackground(new Color(158, 36, 36));
 		list.setForeground(Color.WHITE);
 		listScroller = new JScrollPane(list);
@@ -175,13 +189,15 @@ public class BrowseBook extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtBuyBook)) {
-            //BuyBook();
-			JOptionPane.showMessageDialog(null,Books[list.getSelectedIndex()]);
+            BuyBookControl buyBookObject = new BuyBookControl();
+            Book book = db.getBook(list.getSelectedIndex());
+            String bookName = book.getName();
+            buyBookObject.buyBook(bookName);
+			//JOptionPane.showMessageDialog(null,Books.get(list.getSelectedIndex()));
         }
 		
 	}
 	
-
 	public static void main(String args [])
 	{
 		BrowseBook bbmenu = new BrowseBook();
