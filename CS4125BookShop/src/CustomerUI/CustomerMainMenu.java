@@ -12,7 +12,6 @@ public class CustomerMainMenu extends JFrame implements ActionListener
 	private JButton jbtExit;
 	private JButton jbtBrowseBooks;
 	private JButton jbtReturnBook;
-	private JButton jbtCreateAccount;
 	private JButton jbtCancelOrder;
 	private JLabel jlblTime;
 	private JLabel jlblDate;
@@ -39,7 +38,7 @@ public class CustomerMainMenu extends JFrame implements ActionListener
 		
         menu = new JPanel();
         menu.setBounds(new Rectangle(100,100));
-        menu.setLayout(new GridLayout(6,1));
+        menu.setLayout(new GridLayout(5,1));
 		
         jlblTime = new JLabel("Current Time: ", SwingConstants.CENTER);
         //jlblTime.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -83,14 +82,6 @@ public class CustomerMainMenu extends JFrame implements ActionListener
         jbtBrowseBooks.setForeground(Color.WHITE);
 		jbtBrowseBooks.setToolTipText("Click to open Browse book menu");
 		
-		jbtCreateAccount = new JButton("Create Account");
-        jbtCreateAccount.setPreferredSize(new Dimension(100, 100));
-		//jbtCreateAccount.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        jbtCreateAccount.addActionListener(this);
-		jbtCreateAccount.setBackground(new Color(158, 36, 36));
-        jbtCreateAccount.setForeground(Color.WHITE);
-		jbtCreateAccount.setToolTipText("Click to open create account menu");
-		
 		jbtReturnBook = new JButton("Return Book");
         jbtReturnBook.setPreferredSize(new Dimension(100, 100));
 		//jbtReturnBook.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -114,7 +105,6 @@ public class CustomerMainMenu extends JFrame implements ActionListener
 		
 		menu.add(TimeDate);
 		menu.add(jbtBrowseBooks);
-		menu.add(jbtCreateAccount);
 		menu.add(jbtReturnBook);
 		menu.add(jbtCancelOrder);
 		menu.add(jbtExit);
@@ -141,19 +131,6 @@ public class CustomerMainMenu extends JFrame implements ActionListener
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
 				jbtBrowseBooks.setBackground(new Color(158, 36, 36));
-			}
-		}
-		);
-		
-		jbtCreateAccount.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseEntered(java.awt.event.MouseEvent evt)
-			{
-				jbtCreateAccount.setBackground(Color.BLACK);
-			}
-			public void mouseExited(java.awt.event.MouseEvent evt) 
-			{
-				jbtCreateAccount.setBackground(new Color(158, 36, 36));
 			}
 		}
 		);
@@ -200,11 +177,6 @@ public class CustomerMainMenu extends JFrame implements ActionListener
 
         if(source.equals(jbtBrowseBooks)) {
             BrowseBook bbmenu = new BrowseBook();
-			this.setVisible(false);
-        }
-		
-		if(source.equals(jbtCreateAccount)) {
-            CreateAccount cmenu = new CreateAccount();
 			this.setVisible(false);
         }
 		
