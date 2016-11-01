@@ -42,6 +42,19 @@ public class DBHandler {
                             "PUBLISHER VARCHAR(30) NOT NULL," +
                             "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
                             "PRIMARY KEY (ID))");
+            
+            // Create the ORDERS table if it doesn't already exist
+            statement.execute("CREATE TABLE IF NOT EXISTS ORDERS (" +
+                            "ID INT NOT NULL AUTO_INCREMENT, " +
+                            "NAME VARCHAR(30) NOT NULL, " +
+                            "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
+                            "PRIMARY KEY (ID))");
+            
+            // Create the STORESTOCK table if it doesn't already exist
+            statement.execute("CREATE TABLE IF NOT EXISTS STORESTOCK (" +
+                            "ID INT NOT NULL, " +
+                            "AMOUNT INT NOT NULL, " +
+                            "FOREIGN KEY (ID) REFERENCES BOOKS(ID))");
         } catch (Exception e) {
         }
     }
@@ -75,6 +88,19 @@ public class DBHandler {
                             "PUBLISHER VARCHAR(30) NOT NULL," +
                             "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
                             "PRIMARY KEY (ID))");
+            
+            // Create the ORDERS table if it doesn't already exist
+            statement.execute("CREATE TABLE IF NOT EXISTS ORDERS (" +
+                            "ID INT NOT NULL AUTO_INCREMENT, " +
+                            "NAME VARCHAR(30) NOT NULL, " +
+                            "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
+                            "PRIMARY KEY (ID))");
+            
+            // Create the STORESTOCK table if it doesn't already exist
+            statement.execute("CREATE TABLE IF NOT EXISTS STORESTOCK (" +
+                            "ID INT NOT NULL, " +
+                            "AMOUNT INT NOT NULL, " +
+                            "FOREIGN KEY (ID) REFERENCES BOOKS(ID))");
         } catch (Exception e) {
         }
     }
@@ -105,7 +131,8 @@ public class DBHandler {
         }
         return i;
     }
-           public int checkidExists(int id) {
+    
+    public int checkidExists(int id) {
         resultSet = doStatement("SELECT EXISTS(SELECT * FROM BOOKS WHERE ID='"+id+"')", "SELECT");
         int i = 0;
         try {
@@ -116,20 +143,35 @@ public class DBHandler {
         return i;
     }
     
+    public int getBookID(String bookName) {
+    resultSet = doStatement("SELECT ID FROM BOOKS WHERE NAME='"+bookName+"'", "SELECT");
+    int id = 0;
+    try {
+        resultSet.first();
+        id = resultSet.getInt(1);
+    } catch (Exception e) {
+    }
+    return id;
+    }
+    
     // Adds a new row to BOOKS
     public void insertBook(Book book) {
         name = book.getName();
         int i = checkBookExists(name);
-    if (i == 0)
-        doStatement("insert into CS4125BOOKSHOP.BOOKS values (default, '"+book.getName()+"', '"+book.getAuthor()+"', '"
-                +book.getGenre()+"', '"+book.getPublisher()+"', "+book.getPrice()+")", "INSERT");
+        if (i == 0) {
+            doStatement("insert into CS4125BOOKSHOP.BOOKS values (default, '"+book.getName()+"', '"+book.getAuthor()+"', '"
+                    +book.getGenre()+"', '"+book.getPublisher()+"', "+book.getPrice()+")", "INSERT");
+            doStatement("insert into CS4125BOOKSHOP.STORESTOCK values ("+getBookID(book.getName())+", 0)", "INSERT");
+        }
     }
     
     // Removes row from BOOKS (identified by id)
     public void deleteBook(int id) {
         int i = checkidExists(id);
-        if (i == 0)
+        if (i == 0) {
               doStatement("DELETE FROM BOOKS WHERE ID='"+id+"'", "UPDATE");
+              doStatement("DELETE FROM STORESTOCK WHERE ID='"+id+"'", "UPDATE");
+        }
     }
     
     // Updates the values of a row in BOOKS (identified by id)
@@ -142,6 +184,63 @@ public class DBHandler {
             doStatement("UPDATE BOOKS SET PUBLISHER='"+book.getPublisher()+"' WHERE ID='"+id+"'", "UPDATE");
             doStatement("UPDATE BOOKS SET PRICE="+book.getPrice()+" WHERE ID='"+id+"'", "UPDATE");
         }
+    }
+    
+    // Updates the values of a row in STORESTOCK (book identified by id, boolean add true to add amount to stock, false for subtract)
+    public void updateStoreStock(int id, int amount) {
+        int i = checkidExists(id);
+        if (i == 0){
+            doStatement("UPDATE STORESTOCK SET AMOUNT='"+amount+"' WHERE ID='"+id+"'", "UPDATE");
+        }
+    }
+    
+    // Returns the amount associated with a row in STORESTOCK identified by (book) id
+    public int getStoreStockAmount(int id) {
+        resultSet = doStatement("SELECT AMOUNT FROM STORESTOCK WHERE ID='"+id+"'", "SELECT");
+        int amount = 0;
+        try {
+            resultSet.first();
+            amount = resultSet.getInt(1);
+        } catch (Exception e) {
+        }
+        return amount;
+    }
+    
+    public Book getBook(String name) {
+        String author = "";
+        String genre = "";
+        String pub = "";
+        double price = 0;
+        Book book = new Book();
+        int i = checkBookExists(name);
+        if (i == 0){
+            resultSet = doStatement("SELECT AUTHOR FROM BOOKS WHERE NAME='"+name+"'", "SELECT");
+                    try {
+                            resultSet.first();
+                            author = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }
+            resultSet = doStatement("SELECT GENRE FROM BOOKS WHERE NAME='"+name+"'", "SELECT");
+                    try {
+                            resultSet.first();
+                            genre = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }
+            resultSet = doStatement("SELECT PUBLISHER FROM BOOKS WHERE NAME='"+name+"'", "SELECT");
+                    try {
+                            resultSet.first();
+                            pub = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }            
+            resultSet = doStatement("SELECT PRICE FROM BOOKS WHERE NAME='"+name+"'", "SELECT");
+                                try {
+                            resultSet.first();
+                            price = resultSet.getDouble(1);
+                        } catch (Exception e) {
+                        }
+            book = new Book (name, author, genre, pub, price);
+        }
+        return book;
     }
     
     // Closes the ResultSet, Statement and database Connection
