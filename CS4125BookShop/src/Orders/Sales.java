@@ -1,21 +1,20 @@
+package Orders;
 
-public class sales
+public class Sales
  {
-  
-  
   private String Date;
   private String CName;
   private int OrderId;
   private String BookName;  
   private double price;
   
-  public sales( String sDate, String sName, int sOrderId, String sBookName)
+  public Sales( String sDate, String sName, int sOrderId, String sBookName, double sPrice)
   {
     Date = sDate;
 	CName = sName;
 	OrderId = sOrderId;
 	BookName = sBookName;
-	price = calulateDiscount(BookName,CName);
+	price = sPrice;//calulateDiscount(BookName,CName);
   }
   
   public String getDate()
@@ -43,7 +42,7 @@ public class sales
    return price;
   }
   
-  public double calulateDiscount(String bName, String cName)
+  /*public double calulateDiscount(String bName, String cName)
   {
    int clevel; //put customer level here
    double bprice;
@@ -61,5 +60,5 @@ public class sales
                      break;
          }
    return Dprice;
-  }  
+  }*/ 
  }

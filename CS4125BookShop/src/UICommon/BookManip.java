@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cs4125bookshop;
+package UICommon;
 
 import javax.swing.JOptionPane;
+import DBInterface.DBHandler;
+import Orders.Book;
 
 /**
  *

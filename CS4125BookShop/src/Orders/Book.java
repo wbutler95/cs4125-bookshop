@@ -1,4 +1,4 @@
-package cs4125bookshop;
+package Orders;
 
 public class Book {
     private int id;
@@ -8,11 +8,11 @@ public class Book {
     private String publisher;
     private double price;
     
-    Book() {
+    public Book() {
         
     }
     
-    Book(String name, String author, String genre, String publisher, double price) {
+    public Book(String name, String author, String genre, String publisher, double price) {
         this.id = 0;
         this.name = name;
         this.author = author;

@@ -1,4 +1,4 @@
-package cs4125bookshop;
+package Customers;
 
 public class Customer {
     private int id;
@@ -6,11 +6,11 @@ public class Customer {
     private String email;
     private int memship;
     
-     Customer() {
+    public Customer() {
         
     }
     
-    Customer(String name, String email, int memship) {
+    public Customer(String name, String email, int memship) {
         this.id = 0;
         this.name = name;
         this.email = email;

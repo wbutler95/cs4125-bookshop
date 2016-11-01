@@ -1,7 +1,8 @@
-
-package cs4125bookshop;
+package CustomerControls;
 
 import javax.swing.JOptionPane;
+import DBInterface.DBHandler;
+import Customers.Customer;
 
 public class CreateCustomer {
     private DBHandler db;

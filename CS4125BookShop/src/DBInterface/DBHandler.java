@@ -1,9 +1,11 @@
-package cs4125bookshop;
+package DBInterface;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import Orders.Book;
+import Customers.Customer;
 
 public class DBHandler {
     
@@ -48,6 +50,13 @@ public class DBHandler {
                             "ID INT NOT NULL AUTO_INCREMENT, " +
                             "NAME VARCHAR(30) NOT NULL, " +
                             "PRICE DECIMAL(4,2) DEFAULT 0.00, " +
+                            "PRIMARY KEY (ID))");
+            
+            statement.execute("CREATE TABLE IF NOT EXISTS CUSTOMERS (" +
+                            "ID INT NOT NULL AUTO_INCREMENT, " +
+                            "NAME VARCHAR(30) NOT NULL, " +
+                            "EMAIL VARCHAR(30) NOT NULL, " +
+                            "MEMSHIP INT, " +
                             "PRIMARY KEY (ID))");
             
             // Create the STORESTOCK table if it doesn't already exist
@@ -242,6 +251,10 @@ public class DBHandler {
         }
         return book;
     }
+            public void addCustomer(Customer customer) {
+            doStatement("insert into CS4125BOOKSHOP.CUSTOMERS values (default, '"+customer.getName()+"', '"+customer.getEmail()+"', '"
+                +customer.getMemship(), "INSERT");
+        }
     
     // Closes the ResultSet, Statement and database Connection
     public void close() {
