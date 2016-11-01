@@ -21,6 +21,7 @@ public class StaffMenu extends JFrame implements ActionListener
 	private JButton jbtAddStaff;
 	private JButton jbtRemoveStaff;
 	private JButton jbtEditStaff;
+	private JButton jbtCreateAccount;
         private JPanel menu;
 	private JLabel jlblTime;
 	private JLabel jlblDate;
@@ -46,7 +47,7 @@ public class StaffMenu extends JFrame implements ActionListener
 		
         menu = new JPanel();
         menu.setBounds(new Rectangle(100,100));
-        menu.setLayout(new GridLayout(5,1));
+        menu.setLayout(new GridLayout(6,1));
 		
         jlblTime = new JLabel("Current Time: ", SwingConstants.CENTER);
         //jlblTime.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -102,6 +103,14 @@ public class StaffMenu extends JFrame implements ActionListener
 		jbtEditStaff.setForeground(Color.WHITE);
 		jbtEditStaff.setToolTipText("Click to open edit staff menu");
 		
+		jbtCreateAccount = new JButton("Create Account");
+        	jbtCreateAccount.setPreferredSize(new Dimension(100, 100));
+		//jbtCreateAccount.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        	jbtCreateAccount.addActionListener(this);
+		jbtCreateAccount.setBackground(new Color(59, 89, 182));
+        	jbtCreateAccount.setForeground(Color.WHITE);
+		jbtCreateAccount.setToolTipText("Click to open create account menu");
+		
 		TimeDate.add(jlblTime);
 		TimeDate.add(jpnlTime);
 		TimeDate.add(jlblDate);
@@ -111,6 +120,7 @@ public class StaffMenu extends JFrame implements ActionListener
 		menu.add(jbtAddStaff);
 		menu.add(jbtRemoveStaff);
 		menu.add(jbtEditStaff);
+		menu.add(jbtCreateAccount);
 		menu.add(jbtBack);
 		
 		jbtBack.addMouseListener(new java.awt.event.MouseAdapter()
@@ -135,6 +145,19 @@ public class StaffMenu extends JFrame implements ActionListener
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
 				jbtAddStaff.setBackground(new Color(59, 89, 182));
+			}
+		}
+		);
+		
+		jbtCreateAccount.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseEntered(java.awt.event.MouseEvent evt)
+			{
+				jbtCreateAccount.setBackground(Color.BLACK);
+			}
+			public void mouseExited(java.awt.event.MouseEvent evt) 
+			{
+				jbtCreateAccount.setBackground(new Color(59, 89, 182));
 			}
 		}
 		);
@@ -185,6 +208,11 @@ public class StaffMenu extends JFrame implements ActionListener
 		
 		if(source.equals(jbtRemoveStaff)) {
             DeleteStaff dsmenu = new DeleteStaff();
+			this.setVisible(false);
+        }
+	
+		if(source.equals(jbtCreateAccount)) {
+            CreateAccount cmenu = new CreateAccount();
 			this.setVisible(false);
         }
 		
