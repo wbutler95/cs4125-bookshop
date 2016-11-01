@@ -40,13 +40,13 @@ public class CreateAccount extends JFrame implements ActionListener
         this.setPreferredSize(new Dimension(500,500));
         this.setLayout(new GridLayout(2,1));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBackground(new Color(158, 36, 36));
+		this.setBackground(new Color(59, 89, 182));
 
 		TimeDate = new JPanel();
         TimeDate.setBounds(new Rectangle(500,500));
 		TimeDate.setSize(100, 100);
         TimeDate.setLayout(new GridLayout(1,4));
-		TimeDate.setBackground(new Color(158, 36, 36));
+		TimeDate.setBackground(new Color(59, 89, 182));
         TimeDate.setForeground(Color.WHITE);
 		
         menu = new JPanel();
@@ -60,84 +60,84 @@ public class CreateAccount extends JFrame implements ActionListener
 		Personaldetails = new JPanel();
         Personaldetails.setBounds(new Rectangle(10,10));
         Personaldetails.setLayout(new GridLayout(3,2));
-		Personaldetails.setBackground(new Color(158, 36, 36));
+		Personaldetails.setBackground(new Color(59, 89, 182));
         Personaldetails.setForeground(Color.WHITE);
 		
         jlblTime = new JLabel("Current Time: ", SwingConstants.CENTER);
         //jlblTime.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jlblTime.setSize(40, 40);
-		jlblTime.setBackground(new Color(158, 36, 36));
+		jlblTime.setBackground(new Color(59, 89, 182));
         jlblTime.setForeground(Color.WHITE);
 		
 		jlblDate = new JLabel("Current Date: ", SwingConstants.CENTER);
         //jlblDate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jlblDate.setSize(40, 40);
-		jlblDate.setBackground(new Color(158, 36, 36));
+		jlblDate.setBackground(new Color(59, 89, 182));
         jlblDate.setForeground(Color.WHITE);
 		
 		Date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 		jlblDate2 = new JLabel(Date, SwingConstants.CENTER);
         //jlblDate2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jlblDate2.setSize(40, 40);
-		jlblDate2.setBackground(new Color(158, 36, 36));
+		jlblDate2.setBackground(new Color(59, 89, 182));
         jlblDate2.setForeground(Color.WHITE);
         
         int sleepinterval = 1;
         ThreadedCurrentTime tc = new ThreadedCurrentTime(sleepinterval);
         tc.start();
         jpnlTime = tc.getPanelT();
-        jpnlTime.setBackground(new Color(158, 36, 36));
+        jpnlTime.setBackground(new Color(59, 89, 182));
 		jpnlTime.setForeground(Color.WHITE);
 
 		
 		jbtBack = new JButton("Back");
         jbtBack.setPreferredSize(new Dimension(100, 100));
         jbtBack.addActionListener(this);
-		jbtBack.setBackground(new Color(158, 36, 36));
+		jbtBack.setBackground(new Color(59, 89, 182));
         jbtBack.setForeground(Color.WHITE);
 		jbtBack.setToolTipText("Click to go back to main menu");
 		
 		jbtCreateAccount = new JButton("Create Account");
         jbtCreateAccount.setPreferredSize(new Dimension(100, 100));
         jbtCreateAccount.addActionListener(this);
-		jbtCreateAccount.setBackground(new Color(158, 36, 36));
+		jbtCreateAccount.setBackground(new Color(59, 89, 182));
         jbtCreateAccount.setForeground(Color.WHITE);
 		jbtCreateAccount.setToolTipText("Click to create a new account");
 		jbtCreateAccount.setEnabled(false);
 		
 		Fname = new JLabel("Enter First Name: ", SwingConstants.CENTER);
         Fname.setSize(40, 40);
-		Fname.setBackground(new Color(158, 36, 36));
+		Fname.setBackground(new Color(59, 89, 182));
         Fname.setForeground(Color.WHITE);
 		
 		Sname = new JLabel("Enter Surname Name: ", SwingConstants.CENTER);
         Sname.setSize(40, 40);
-		Sname.setBackground(new Color(158, 36, 36));
+		Sname.setBackground(new Color(59, 89, 182));
         Sname.setForeground(Color.WHITE);
 		
 		Email = new JLabel("Enter Email: ", SwingConstants.CENTER);
         Email.setSize(40, 40);
-		Email.setBackground(new Color(158, 36, 36));
+		Email.setBackground(new Color(59, 89, 182));
         Email.setForeground(Color.WHITE);
 		
 		F = new JTextField(20);
 		F.setText("First Name");
         F.setSize(40, 40);
-		F.setBackground(new Color(158, 36, 36));
+		F.setBackground(new Color(59, 89, 182));
         F.setForeground(Color.WHITE);
 		F.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		S = new JTextField(20);
 		S.setText("Surname");
         S.setSize(40, 40);
-		S.setBackground(new Color(158, 36, 36));
+		S.setBackground(new Color(59, 89, 182));
         S.setForeground(Color.WHITE);
 		S.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		E = new JTextField(50);
 		E.setText("Email");
         E.setSize(40, 40);
-		E.setBackground(new Color(158, 36, 36));
+		E.setBackground(new Color(59, 89, 182));
         E.setForeground(Color.WHITE);
 		E.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -173,7 +173,7 @@ public class CreateAccount extends JFrame implements ActionListener
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
 				F.setForeground(Color.WHITE);
-				F.setBackground(new Color(158, 36, 36));
+				F.setBackground(new Color(59, 89, 182));
 			}
 		}
 		);
@@ -188,7 +188,7 @@ public class CreateAccount extends JFrame implements ActionListener
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
 				S.setForeground(Color.WHITE);
-				S.setBackground(new Color(158, 36, 36));
+				S.setBackground(new Color(59, 89, 182));
 			}
 		}
 		);
@@ -203,7 +203,7 @@ public class CreateAccount extends JFrame implements ActionListener
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
 				E.setForeground(Color.WHITE);
-				E.setBackground(new Color(158, 36, 36));
+				E.setBackground(new Color(59, 89, 182));
 			}
 		}
 		);
@@ -216,7 +216,7 @@ public class CreateAccount extends JFrame implements ActionListener
 			}
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
-				jbtBack.setBackground(new Color(158, 36, 36));
+				jbtBack.setBackground(new Color(59, 89, 182));
 			}
 		}
 		);
@@ -229,7 +229,7 @@ public class CreateAccount extends JFrame implements ActionListener
 			}
 			public void mouseExited(java.awt.event.MouseEvent evt) 
 			{
-				jbtCreateAccount.setBackground(new Color(158, 36, 36));
+				jbtCreateAccount.setBackground(new Color(59, 89, 182));
 			}
 		}
 		);
@@ -288,7 +288,7 @@ public class CreateAccount extends JFrame implements ActionListener
 	{	
         JButton source = (JButton) ae.getSource();
         if(source.equals(jbtBack)) {
-            CustomerMainMenu menu = new CustomerMainMenu();
+            StaffMenu pmenu = new StaffMenu();
 			this.setVisible(false);
         }
 
