@@ -163,6 +163,18 @@ public class DBHandler {
     return id;
     }
     
+    // Returns the amount of rows in the BOOKS table
+    public int countBooks() {
+    resultSet = doStatement("SELECT COUNT(*) FROM BOOKS", "SELECT");
+    int id = 0;
+    try {
+        resultSet.first();
+        id = resultSet.getInt(1);
+    } catch (Exception e) {
+    }
+    return id;
+    }
+    
     // Adds a new row to BOOKS
     public void insertBook(Book book) {
         name = book.getName();
@@ -251,9 +263,53 @@ public class DBHandler {
         }
         return book;
     }
-            public void addCustomer(Customer customer) {
-            doStatement("insert into CS4125BOOKSHOP.CUSTOMERS values (default, '"+customer.getName()+"', '"+customer.getEmail()+"', '"
-                +customer.getMemship(), "INSERT");
+    
+    public Book getBook(int id) {
+        String name = "";
+        String author = "";
+        String genre = "";
+        String pub = "";
+        double price = 0;
+        Book book = new Book();
+        int i = checkidExists(id);
+        if (i == 0){
+            resultSet = doStatement("SELECT NAME FROM BOOKS WHERE ID="+id, "SELECT");
+                    try {
+                            resultSet.first();
+                            name = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }
+            resultSet = doStatement("SELECT AUTHOR FROM BOOKS WHERE ID="+id, "SELECT");
+                    try {
+                            resultSet.first();
+                            author = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }
+            resultSet = doStatement("SELECT GENRE FROM BOOKS WHERE ID="+id, "SELECT");
+                    try {
+                            resultSet.first();
+                            genre = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }
+            resultSet = doStatement("SELECT PUBLISHER FROM BOOKS WHERE ID="+id, "SELECT");
+                    try {
+                            resultSet.first();
+                            pub = resultSet.getString(1);
+                        } catch (Exception e) {
+                        }            
+            resultSet = doStatement("SELECT PRICE FROM BOOKS WHERE ID="+id, "SELECT");
+                                try {
+                            resultSet.first();
+                            price = resultSet.getDouble(1);
+                        } catch (Exception e) {
+                        }
+            book = new Book (name, author, genre, pub, price);
+        }
+        return book;
+    }
+    
+    public void insertCustomer(Customer customer) {
+            doStatement("insert into CS4125BOOKSHOP.CUSTOMERS values (default, '"+customer.getName()+"', '"+customer.getEmail()+"', "+customer.getMemship()+")", "INSERT");
         }
     
     // Closes the ResultSet, Statement and database Connection
