@@ -1,4 +1,4 @@
-package CustomerControls;
+package StaffControls;
 
 import DBInterface.DBHandler;
 import Customers.Customer;

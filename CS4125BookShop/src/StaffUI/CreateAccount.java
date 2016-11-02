@@ -1,6 +1,6 @@
 package StaffUI;
 
-import CustomerControls.CreateAccountControl;
+import StaffControls.CreateAccountControl;
 import UICommon.ThreadedCurrentTime;
 import java.awt.*;
 import java.awt.event.*;
