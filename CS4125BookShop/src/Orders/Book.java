@@ -1,8 +1,7 @@
 package Orders;
 
 public class Book {
-    private int id;
-    private String name;
+    private String name = "";
     private String author;
     private String genre;
     private String publisher;
@@ -13,16 +12,11 @@ public class Book {
     }
     
     public Book(String name, String author, String genre, String publisher, double price) {
-        this.id = 0;
         this.name = name;
         this.author = author;
         this.genre = genre;
         this.publisher = publisher;
         this.price = price;
-    }
-    
-    public int getID() {
-        return this.id;
     }
     
     public String getName() {

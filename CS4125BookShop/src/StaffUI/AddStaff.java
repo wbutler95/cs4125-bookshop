@@ -1,5 +1,6 @@
 package StaffUI;
 
+import StaffControls.AddStaffControl;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -136,35 +137,35 @@ public class AddStaff extends JFrame implements ActionListener
         Phone.setForeground(Color.WHITE);
 		
 		F = new JTextField(20);
-		F.setText("First Name");
+		//F.setText("First Name");
         F.setSize(40, 40);
 		F.setBackground(new Color(59, 89, 182));
         F.setForeground(Color.WHITE);
 		F.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		S = new JTextField(20);
-		S.setText("Surname");
+		//S.setText("Surname");
         S.setSize(40, 40);
 		S.setBackground(new Color(59, 89, 182));
         S.setForeground(Color.WHITE);
 		S.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		A = new JTextField(50);
-		A.setText("Address");
+		//A.setText("Address");
         A.setSize(40, 40);
 		A.setBackground(new Color(59, 89, 182));
         A.setForeground(Color.WHITE);
 		A.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		E = new JTextField(50);
-		E.setText("Email");
+		//E.setText("Email");
         E.setSize(40, 40);
 		E.setBackground(new Color(59, 89, 182));
         E.setForeground(Color.WHITE);
 		E.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		P = new JTextField(50);
-		P.setText("Phone Number");
+		//P.setText("Phone Number");
         P.setSize(40, 40);
 		P.setBackground(new Color(59, 89, 182));
         P.setForeground(Color.WHITE);
@@ -390,8 +391,10 @@ public class AddStaff extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtAddStaff)) {
-            //;AddStaff
-			
+            AddStaffControl addStaffObject = new AddStaffControl();
+            addStaffObject.addStaff(F.getText()+" "+S.getText(), A.getText(), E.getText(), Integer.parseInt(P.getText()));
+            StaffMenu smenu = new StaffMenu();
+            this.setVisible(false);
         }
 		
 	}
@@ -399,6 +402,6 @@ public class AddStaff extends JFrame implements ActionListener
 
 	public static void main(String args [])
 	{
-		AddStaff asmenu = new AddStaff();
+            AddStaff asmenu = new AddStaff();
 	}
 }

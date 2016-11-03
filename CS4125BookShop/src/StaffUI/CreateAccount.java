@@ -304,7 +304,8 @@ public class CreateAccount extends JFrame implements ActionListener
             
             CreateAccountControl createAccountObject = new CreateAccountControl();
             createAccountObject.createAccount(name, email, membership);
-            System.exit(0);
+            BookMenu bmenu = new BookMenu();
+            this.setVisible(false);
         }
 		
 	}

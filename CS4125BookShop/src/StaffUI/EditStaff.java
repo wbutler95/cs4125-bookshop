@@ -1,5 +1,8 @@
 package StaffUI;
 
+import DBInterface.DBHandler;
+import Staff.Staff;
+import StaffControls.EditStaffControl;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -10,9 +13,11 @@ import UICommon.ThreadedCurrentTime;
 
 public class EditStaff extends JFrame implements ActionListener
 {
+        private DBHandler db = new DBHandler();
+        private int staffCount = db.countAllStaff();
 	private JButton jbtBack;
 	private JButton jbtEditStaff;
-    private JPanel menu;
+        private JPanel menu;
 	private JPanel buttons;
 	private JPanel Persondetails;
 	private JLabel jlblTime;
@@ -38,9 +43,9 @@ public class EditStaff extends JFrame implements ActionListener
 	private JTextField P;
 
 	private JScrollPane listScroller;
-	private String staff [] = {"A","B","C","D","E","F","G","H","I","J","K","L"};
+        private Vector<String> StaffList = new Vector<>();
 	private JList list;
-	private int choice;
+	private String choice;
 	private String pattern = "[0-9]+";
 	
 	public EditStaff()
@@ -174,11 +179,18 @@ public class EditStaff extends JFrame implements ActionListener
 		P.setBackground(new Color(59, 89, 182));
         P.setForeground(Color.WHITE);
 		P.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for(int i = 1; i <= staffCount; i++) {
+            Staff staff = db.getStaff(i);
+            if(!staff.getName().matches(""))
+                StaffList.add(staff.getName());
+        }
+        Collections.sort(StaffList);
 		
-		list = new JList(staff);
+		list = new JList(StaffList);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setVisibleRowCount(staff.length);
+		list.setVisibleRowCount(StaffList.size());
 		list.setBackground(new Color(59, 89, 182));
 		list.setForeground(Color.WHITE);
 		listScroller = new JScrollPane(list);
@@ -217,7 +229,7 @@ public class EditStaff extends JFrame implements ActionListener
 			{
 				if (e.getValueIsAdjusting() == false)
 					{
-						if (list.getSelectedIndex() == -1 && choice ==-1)
+						if (list.getSelectedIndex() == -1/* && choice ==-1*/)
 						{
 							//No selection.
 							jbtEditStaff.setEnabled(false);
@@ -226,7 +238,14 @@ public class EditStaff extends JFrame implements ActionListener
 						{
 							//Selection.
 							jbtEditStaff.setEnabled(true);
-							choice = list.getSelectedIndex();
+							choice = list.getSelectedValue().toString();
+                                                        Staff staff = db.getStaff(choice);
+                                                        String name[] = staff.getName().split(" ");
+                                                        F.setText(name[0]);
+                                                        S.setText(name[1]);
+                                                        A.setText(staff.getAddress());
+                                                        E.setText(staff.getEmail());
+                                                        P.setText(""+staff.getPhoneNumber());
 						}
 					}
 			}
@@ -426,8 +445,10 @@ public class EditStaff extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtEditStaff)) {
-            //;EditStaff
-			JOptionPane.showMessageDialog(null,staff[choice]);
+            EditStaffControl editStaffObject = new EditStaffControl();
+            editStaffObject.editStaff(db.getStaffID(choice), F.getText()+" "+S.getText(), A.getText(), E.getText(), Integer.parseInt(P.getText()));
+            BookMenu bmenu = new BookMenu();
+            this.setVisible(false);
         }
 		
 	}

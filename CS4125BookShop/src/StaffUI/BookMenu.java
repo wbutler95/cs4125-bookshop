@@ -21,7 +21,7 @@ public class BookMenu extends JFrame implements ActionListener
 	private JButton jbtAddBook;
 	private JButton jbtRemoveBook;
 	private JButton jbtEditBook;
-    private JPanel menu;
+        private JPanel menu;
 	private JLabel jlblTime;
 	private JLabel jlblDate;
 	private JPanel jpnlTime;

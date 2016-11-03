@@ -1,5 +1,7 @@
 package StaffUI;
 
+import DBInterface.DBHandler;
+import Orders.Book;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -9,9 +11,10 @@ import UICommon.ThreadedCurrentTime;
 
 public class CheckStock extends JFrame implements ActionListener
 {
+        private DBHandler db = new DBHandler();
+        private int bookCount = db.countAllBooks();
 	private JButton jbtBack;
-
-    private JPanel menu;
+        private JPanel menu;
 	private JPanel Top;
 	private JLabel jlblTime;
 	private JLabel jlblDate;
@@ -21,9 +24,9 @@ public class CheckStock extends JFrame implements ActionListener
 	private JLabel jlblDate2;
 	private JPanel TimeDate;
 	private String Date;
-	private String books [] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"};
-	private String amount [] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"};
-	private String stock [] = new String[books.length];
+        private Vector<String> books = new Vector<>();
+        private Vector<Integer> amount = new Vector<>();
+        private Vector<String> stock = new Vector<>();
 	private JList list;
 	private int choice = -1;
 	
@@ -98,16 +101,22 @@ public class CheckStock extends JFrame implements ActionListener
 		jbtBack.setBackground(new Color(59, 89, 182));
         jbtBack.setForeground(Color.WHITE);
 		jbtBack.setToolTipText("Click to go back to main menu");
-		
-		for(int i = 0; i < books.length; i++)
-		{
-			stock[i] = books[i] + "  " + " Stock: " + amount[i]; 
-		}
+
+                for(int i = 1; i <= bookCount; i++) {
+                    Book book = db.getBook(i);
+                    String bookName = book.getName();
+                    if(!bookName.matches("")) {
+                        books.add(bookName);
+                        amount.add(db.getStoreStockAmount(db.getBookID(bookName)));
+                        stock.add(books.get(i-1)+"  "+" Stock: "+amount.get(i-1));
+                    }
+                }
+                Collections.sort(stock);
 		
 		list = new JList(stock);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setVisibleRowCount(stock.length);
+		list.setVisibleRowCount(stock.size());
 		list.setBackground(new Color(59, 89, 182));
 		list.setForeground(Color.WHITE);
 		listScroller = new JScrollPane(list);

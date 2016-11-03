@@ -1,5 +1,8 @@
 package StaffUI;
 
+import DBInterface.DBHandler;
+import Staff.Staff;
+import StaffControls.DeleteStaffControl;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -10,9 +13,11 @@ import UICommon.ThreadedCurrentTime;
 
 public class DeleteStaff extends JFrame implements ActionListener
 {
+        private DBHandler db = new DBHandler();
+        private int staffCount = db.countAllStaff();
 	private JButton jbtBack;
 	private JButton jbtDeleteStaff;
-    private JPanel menu;
+        private JPanel menu;
 	private JPanel buttons;
 	private JLabel jlblTime;
 	private JLabel jlblDate;
@@ -21,9 +26,9 @@ public class DeleteStaff extends JFrame implements ActionListener
 	private JLabel jlblDate2;
 	private JPanel TimeDate;
 	private String Date;
-	private String staff [] = {"A","B","C","D","E","F","G","H","I","J","K","L"};
+        private Vector<String> StaffList = new Vector<>();
 	private JList list;
-	private int choice;
+	private String choice;
 	
 	public DeleteStaff()
 	{
@@ -90,11 +95,18 @@ public class DeleteStaff extends JFrame implements ActionListener
         jbtDeleteStaff.setForeground(Color.WHITE);
 		jbtDeleteStaff.setToolTipText("Click to delete staff selected from list");
 		jbtDeleteStaff.setEnabled(false);
+
+        for(int i = 1; i <= staffCount; i++) {
+            Staff staff = db.getStaff(i);
+            if(!staff.getName().matches(""))
+                StaffList.add(staff.getName());
+        }
+        Collections.sort(StaffList);
 		
-		list = new JList(staff);
+		list = new JList(StaffList);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setVisibleRowCount(staff.length);
+		list.setVisibleRowCount(StaffList.size());
 		list.setBackground(new Color(59, 89, 182));
 		list.setForeground(Color.WHITE);
 		listScroller = new JScrollPane(list);
@@ -146,7 +158,7 @@ public class DeleteStaff extends JFrame implements ActionListener
 			{
 				if (e.getValueIsAdjusting() == false)
 					{
-						if (list.getSelectedIndex() == -1 && choice ==-1)
+						if (list.getSelectedIndex() == -1/* && choice ==-1*/)
 						{
 							//No selection.
 							jbtDeleteStaff.setEnabled(false);
@@ -155,7 +167,7 @@ public class DeleteStaff extends JFrame implements ActionListener
 						{
 							//Selection.
 							jbtDeleteStaff.setEnabled(true);
-							choice = list.getSelectedIndex();
+							choice = list.getSelectedValue().toString();
 						}
 					}
 			}
@@ -175,8 +187,10 @@ public class DeleteStaff extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtDeleteStaff)) {
-            //DeleteStaff();
-			JOptionPane.showMessageDialog(null,staff[list.getSelectedIndex()]);
+            DeleteStaffControl deleteStaffObject = new DeleteStaffControl();
+            deleteStaffObject.deleteStaff(choice);
+            StaffMenu smenu = new StaffMenu();
+            this.setVisible(false);
         }
 		
 	}

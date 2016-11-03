@@ -1,5 +1,8 @@
 package StaffUI;
 
+import DBInterface.DBHandler;
+import Orders.Book;
+import StaffControls.RemoveStockControl;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -10,9 +13,11 @@ import UICommon.ThreadedCurrentTime;
 
 public class DeleteStock extends JFrame implements ActionListener
 {
+        private DBHandler db = new DBHandler();
+        private int bookCount = db.countAllBooks();
 	private JButton jbtBack;
 	private JButton jbtDeleteStock;
-    private JPanel menu;
+        private JPanel menu;
 	private JPanel Top;
 	private JPanel buttons;
 	private JLabel jlblTime;
@@ -24,9 +29,9 @@ public class DeleteStock extends JFrame implements ActionListener
 	private JPanel TimeDate;
 	private JTextField M;
 	private String Date;
-	private String Books [] = {"1","2","3","4","5","6","7","8","9","10","11","12"};
+        private Vector<String> Books = new Vector<>();
 	private JList list;
-	private int choice = -1;
+	private String choice;
 	
 	private String pattern = "[0-9]+";
 	
@@ -107,18 +112,27 @@ public class DeleteStock extends JFrame implements ActionListener
         jbtDeleteStock.setForeground(Color.WHITE);
 		jbtDeleteStock.setToolTipText("Click to delete stock from store");
 		jbtDeleteStock.setEnabled(false);
+
+                for(int i = 1; i <= bookCount; i++) {
+                    Book book = db.getBook(i);
+                    String bookName = book.getName();
+                    if(!bookName.matches("")) {
+                        Books.add(bookName);
+                    }
+                }
+                Collections.sort(Books);
 		
 		list = new JList(Books);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setVisibleRowCount(Books.length);
+		list.setVisibleRowCount(Books.size());
 		list.setBackground(new Color(59, 89, 182));
 		list.setForeground(Color.WHITE);
 		listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(250, 80));
 		
 		M = new JTextField(50);
-		M.setText("Enter Amount here:");
+		//M.setText("Enter Amount here:");
         M.setSize(40, 40);
 		M.setBackground(new Color(59, 89, 182));
         M.setForeground(Color.WHITE);
@@ -174,7 +188,7 @@ public class DeleteStock extends JFrame implements ActionListener
 			{
 				if (e.getValueIsAdjusting() == false)
 					{
-						if (list.getSelectedIndex() == -1 && choice ==-1)
+						if (list.getSelectedIndex() == -1/* && choice ==-1*/)
 						{
 							//No selection.
 							jbtDeleteStock.setEnabled(false);
@@ -183,7 +197,7 @@ public class DeleteStock extends JFrame implements ActionListener
 						{
 							//Selection.
 							jbtDeleteStock.setEnabled(true);
-							choice = list.getSelectedIndex();
+							choice = list.getSelectedValue().toString();
 						}
 					}
 			}
@@ -239,8 +253,10 @@ public class DeleteStock extends JFrame implements ActionListener
         }
 
         if(source.equals(jbtDeleteStock)) {
-            //DeleteStock()
-			JOptionPane.showMessageDialog(null,Books[choice]);
+            RemoveStockControl removeStockObject = new RemoveStockControl();
+            removeStockObject.removeStock(choice, Integer.parseInt(M.getText()));
+            StockMenu smenu = new StockMenu();
+            this.setVisible(false);
         }
 		
 	}
